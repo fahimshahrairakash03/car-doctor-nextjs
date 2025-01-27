@@ -1,3 +1,5 @@
+"use client";
+import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -5,6 +7,7 @@ import { FaShoppingCart } from "react-icons/fa";
 import { FaSearch } from "react-icons/fa";
 
 const Navbar = () => {
+  const session = useSession();
   const navItems = [
     {
       title: "Home",
@@ -63,7 +66,7 @@ const Navbar = () => {
               ))}
             </ul>
           </div>
-          <a className="btn btn-ghost text-xl">
+          <div className="btn btn-ghost text-xl">
             <Link href={"/"}>
               <Image
                 src="/assets/logo.svg"
@@ -72,7 +75,7 @@ const Navbar = () => {
                 width={60}
               ></Image>
             </Link>
-          </a>
+          </div>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal space-x-6 px-1">
@@ -92,7 +95,18 @@ const Navbar = () => {
             <FaShoppingCart />
             <FaSearch />
 
-            <a className="btn btn-primary btn-outline px-8">Appointment</a>
+            {!session.data ? (
+              <Link href="/login" className="btn btn-primary btn-outline px-8">
+                Login
+              </Link>
+            ) : (
+              <button
+                onClick={() => signOut()}
+                className="btn btn-primary btn-outline px-8"
+              >
+                Logout
+              </button>
+            )}
           </div>
         </div>
       </div>

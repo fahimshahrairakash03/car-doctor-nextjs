@@ -2,10 +2,27 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { signIn } from "next-auth/react";
 import { FaGithub, FaGoogle } from "react-icons/fa";
+import { useRouter } from "next/navigation";
+import SocialSignin from "@/components/Shared/SocialSignin/SocialSignin";
 
 const LoginPage = () => {
-  const handleLogin = () => {};
+  const router = useRouter();
+  const handleLogin = (e) => {
+    e.preventDefault();
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    const res = signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+    console.log(res);
+    if (res.status === 200) {
+      router.push("/");
+    }
+  };
 
   return (
     <div className="container px-24 mx-auto py-24">
@@ -51,14 +68,7 @@ const LoginPage = () => {
           <div className="mt-10">
             <h6 className="text-xl text-center">Signin With</h6>
             <div className="flex justify-center space-x-4">
-              <button className="text-2xl text-green-700">
-                {" "}
-                <FaGoogle />
-              </button>
-              <button className="text-2xl">
-                {" "}
-                <FaGithub />
-              </button>
+              <SocialSignin></SocialSignin>
             </div>
             <h6 className="text-2xl mt-5 text-center mb-10 font-semibold">
               Not Have Account?{" "}
