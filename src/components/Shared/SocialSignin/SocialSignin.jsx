@@ -7,7 +7,6 @@ const SocialSignin = () => {
       <button className="text-2xl text-green-700">
         {" "}
         <FaGoogle />
-        asdasdasdsaddsad
       </button>
       <button className="text-2xl">
         {" "}
